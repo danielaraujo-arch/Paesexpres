@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantinho Mineiro - Pães, Rosquinhas & Bolos Caseiros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fef9e7;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(139, 90, 43, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(210, 150, 60, 0.08) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 750px;
+            width: 100%;
+            background: #fffdf5;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(139, 90, 43, 0.2), 0 0 0 2px #d4a056;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5a2b 0%, #a0522d 50%, #6b3410 100%);
+            padding: 30px 25px 25px;
+            text-align: center;
+            position: relative;
+            border-bottom: 5px solid #d4a056;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 30px;
+            background: #fffdf5;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #fff8e7;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            color: #f5d6a8;
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 1.1em;
+        }
+
+        .header .wheat-icon {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            background: #f8efda;
+            padding: 12px 20px;
+            font-size: 1.3rem;
+            color: #6b3410;
+            border-left: 8px solid #d4a056;
+            margin: 20px 20px 0 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px 20px 10px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #f0e0c0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 90, 43, 0.2);
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5em;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .pao-mineiro .product-image {
+            background: linear-gradient(135deg, #f5deb3, #deb887);
+        }
+        .pao-milho .product-image {
+            background: linear-gradient(135deg, #fff44f, #daa520);
+        }
+        .rosquinha .product-image {
+            background: linear-gradient(135deg, #ffe4c4, #f4a460);
+        }
+        .bolo-laranja .product-image {
+            background: linear-gradient(135deg, #ffcc80, #ffb74d);
+        }
+        .bolo-abacaxi .product-image {
+            background: linear-gradient(135deg, #ffe082, #ffd966);
+        }
+        .bolo-coco .product-image {
+            background: linear-gradient(135deg, #f8f0e0, #f5e6c4);
+        }
+        .bolo-formigueiro .product-image {
+            background: linear-gradient(135deg, #fce4b2, #f7d9a0);
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-info h3 {
+            color: #5c3317;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        .product-weight {
+            font-size: 0.75rem;
+            background: #f0e2cd;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #7b4a2e;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .product-info .description {
+            color: #8b7355;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .product-info .price {
+            color: #a0522d;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #d4a056;
+            background: white;
+            color: #8b5a2b;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .quantity-btn:hover {
+            background: #8b5a2b;
+            color: white;
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.9);
+        }
+
+        .quantity-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #5c3317;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-section {
+            padding: 0 20px 20px;
+        }
+
+        .cart-summary {
+            background: #fdf5e6;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px dashed #d4a056;
+            margin-top: 10px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0e0c0;
+            color: #5c3317;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .remove-item {
+            color: #c0392b;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 0 5px;
+            transition: color 0.2s;
+        }
+
+        .remove-item:hover {
+            color: #e74c3c;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #d4a056;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #5c3317;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8b5a2b, #a0522d);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(139, 90, 43, 0.3);
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(135deg, #a0522d, #6b3410);
+            box-shadow: 0 12px 30px rgba(139, 90, 43, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .checkout-btn:active {
+            transform: scale(0.98);
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #b0a090;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: #fffdf5;
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border: 3px solid #d4a056;
+            animation: popIn 0.4s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal .icon {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .modal h2 {
+            color: #5c3317;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: #8b7355;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .close-modal-btn {
+            padding: 12px 40px;
+            background: #d4a056;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .close-modal-btn:hover {
+            background: #b8863e;
+        }
+
+        @media (max-width: 550px) {
+            .product-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .product-weight {
+                display: inline-block;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <span class="wheat-icon">🌾</span>
+            <h1>Cantinho Mineiro</h1>
+            <p class="subtitle">Sabor da roça na sua mesa</p>
+        </div>
+
+        <div class="section-title">🥖 Pães & Rosquinhas</div>
+        <div class="products-grid" id="productsGridPães">
+            <!-- Pão Mineiro -->
+            <div class="product-card pao-mineiro" data-product="pao-mineiro">
+                <div class="product-image">🥖</div>
+                <div class="product-info">
+                    <h3>Pão Mineiro</h3>
+                    <p class="description">Tradicional pão caseiro, massa macia e crosta dourada</p>
+                    <div class="price">R$ 12,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('pao-mineiro', -1)">−</button>
+                        <span class="quantity-display" id="qty-pao-mineiro">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('pao-mineiro', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Pão de Milho -->
+            <div class="product-card pao-milho" data-product="pao-milho">
+                <div class="product-image">🌽</div>
+                <div class="product-info">
+                    <h3>Pão de Milho</h3>
+                    <p class="description">Feito com fubá mineiro, levemente adocicado e amanteigado</p>
+                    <div class="price">R$ 10,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('pao-milho', -1)">−</button>
+                        <span class="quantity-display" id="qty-pao-milho">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('pao-milho', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Rosquinha Doce -->
+            <div class="product-card rosquinha" data-product="rosquinha">
+                <div class="product-image">🍩</div>
+                <div class="product-info">
+                    <h3>Rosquinha Doce</h3>
+                    <p class="description">Rosquinha frita, polvilhada com açúcar e canela</p>
+                    <div class="price">R$ 8,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('rosquinha', -1)">−</button>
+                        <span class="quantity-display" id="qty-rosquinha">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('rosquinha', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">🍰 Bolos Caseiros (380g)</div>
+        <div class="products-grid" id="productsGridBolos">
+            <!-- Bolo de Laranja -->
+            <div class="product-card bolo-laranja" data-product="bolo-laranja">
+                <div class="product-image">🍊</div>
+                <div class="product-info">
+                    <h3>Bolo de Laranja <span class="product-weight">380g</span></h3>
+                    <p class="description">Massa fofinha e suculenta, com calda natural de laranja e raspas.</p>
+                    <div class="price">R$ 18,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-laranja', -1)">−</button>
+                        <span class="quantity-display" id="qty-bolo-laranja">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-laranja', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Bolo de Abacaxi -->
+            <div class="product-card bolo-abacaxi" data-product="bolo-abacaxi">
+                <div class="product-image">🍍</div>
+                <div class="product-info">
+                    <h3>Bolo de Abacaxi <span class="product-weight">380g</span></h3>
+                    <p class="description">Pedacinhos de abacaxi na massa e cobertura caramelizada.</p>
+                    <div class="price">R$ 19,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-abacaxi', -1)">−</button>
+                        <span class="quantity-display" id="qty-bolo-abacaxi">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-abacaxi', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Bolo de Côco -->
+            <div class="product-card bolo-coco" data-product="bolo-coco">
+                <div class="product-image">🥥</div>
+                <div class="product-info">
+                    <h3>Bolo de Côco <span class="product-weight">380g</span></h3>
+                    <p class="description">Macio, com coco ralado úmido e finalizado com leite de coco.</p>
+                    <div class="price">R$ 18,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-coco', -1)">−</button>
+                        <span class="quantity-display" id="qty-bolo-coco">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-coco', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Bolo Formigueiro -->
+            <div class="product-card bolo-formigueiro" data-product="bolo-formigueiro">
+                <div class="product-image">🐜</div>
+                <div class="product-info">
+                    <h3>Bolo Formigueiro <span class="product-weight">380g</span></h3>
+                    <p class="description">Clássico bico de chocolate granulado, fofura e nostalgia em cada fatia.</p>
+                    <div class="price">R$ 19,90</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-formigueiro', -1)">−</button>
+                        <span class="quantity-display" id="qty-bolo-formigueiro">0</span>
+                        <button class="quantity-btn" onclick="updateQuantity('bolo-formigueiro', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-section">
+            <h3 style="color: #5c3317; margin-bottom: 10px; font-size: 1.2em;">🛒 Seu Pedido</h3>
+            <div class="cart-summary" id="cartSummary">
+                <div class="empty-cart">Seu carrinho está vazio</div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <span>Total:</span>
+                <span id="totalPrice">R$ 0,00</span>
+            </div>
+            <button class="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido 🛍️</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" style="display: none;">
+        <div class="modal">
+            <span class="icon">✅</span>
+            <h2>Pedido Confirmado!</h2>
+            <p id="modalMessage"></p>
+            <button class="close-modal-btn" onclick="fecharModal()">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        // Lista de produtos com nomes, preços e referência de peso (380g incluso na descrição)
+        const products = {
+            'pao-mineiro': { name: 'Pão Mineiro', price: 12.90 },
+            'pao-milho': { name: 'Pão de Milho', price: 10.90 },
+            'rosquinha': { name: 'Rosquinha Doce', price: 8.90 },
+            'bolo-laranja': { name: 'Bolo de Laranja (380g)', price: 18.90 },
+            'bolo-abacaxi': { name: 'Bolo de Abacaxi (380g)', price: 19.90 },
+            'bolo-coco': { name: 'Bolo de Côco (380g)', price: 18.90 },
+            'bolo-formigueiro': { name: 'Bolo Formigueiro (380g)', price: 19.90 }
+        };
+
+        let cart = {};
+
+        function updateQuantity(productId, change) {
+            if (!cart[productId]) {
+                cart[productId] = 0;
+            }
+            
+            const newQty = cart[productId] + change;
+            if (newQty < 0) return;
+            
+            cart[productId] = newQty;
+            
+            if (cart[productId] === 0) {
+                delete cart[productId];
+            }
+            
+            // Atualiza display visual da quantidade ao lado do produto
+            const qtyDisplay = document.getElementById(`qty-${productId}`);
+            if (qtyDisplay) {
+                qtyDisplay.textContent = newQty;
+            }
+            
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartSummary = document.getElementById('cartSummary');
+            const cartTotalDiv = document.getElementById('cartTotal');
+            const totalPriceSpan = document.getElementById('totalPrice');
+            
+            if (Object.keys(cart).length === 0) {
+                cartSummary.innerHTML = '<div class="empty-cart">Seu carrinho está vazio</div>';
+                cartTotalDiv.style.display = 'none';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            for (const [productId, quantity] of Object.entries(cart)) {
+                const product = products[productId];
+                if (!product) continue;
+                const subtotal = product.price * quantity;
+                total += subtotal;
+                
+                html += `
+                    <div class="cart-item">
+                        <span>${quantity}x ${product.name}</span>
+                        <span>R$ ${subtotal.toFixed(2)} 
+                            <span class="remove-item" onclick="removeItem('${productId}')" title="Remover">🗑️</span>
+                        </span>
+                    </div>
+                `;
+            }
+            
+            cartSummary.innerHTML = html;
+            cartTotalDiv.style.display = 'flex';
+            totalPriceSpan.textContent = `R$ ${total.toFixed(2)}`;
+        }
+
+        function removeItem(productId) {
+            // Remove completamente item do carrinho e zera o contador visual
+            const qtyDisplay = document.getElementById(`qty-${productId}`);
+            if (qtyDisplay) {
+                qtyDisplay.textContent = '0';
+            }
+            delete cart[productId];
+            updateCartDisplay();
+        }
+
+        function finalizarPedido() {
+            if (Object.keys(cart).length === 0) {
+                showModal('⚠️', 'Carrinho Vazio', 'Adicione pelo menos um produto ao carrinho para finalizar o pedido.\nNossos bolos (380g) e pães esperam por você!');
+                return;
+            }
+            
+            let mensagem = '🧾 Pedido finalizado com sucesso:\n\n';
+            let total = 0;
+            
+            for (const [productId, quantity] of Object.entries(cart)) {
+                const product = products[productId];
+                const subtotal = product.price * quantity;
+                total += subtotal;
+                mensagem += `🍽️ ${quantity}x ${product.name} = R$ ${subtotal.toFixed(2)}\n`;
+            }
+            
+            mensagem += `\n💵 Total: R$ ${total.toFixed(2)}\n\n📞 Entraremos em contato para confirmar a entrega! 🏠\nObrigado por pedir no Cantinho Mineiro.`;
+            
+            showModal('🛵✨', 'Pedido Realizado!', mensagem);
+            
+            // Limpar carrinho
+            cart = {};
+            for (const productId of Object.keys(products)) {
+                const qtyDisplay = document.getElementById(`qty-${productId}`);
+                if (qtyDisplay) {
+                    qtyDisplay.textContent = '0';
+                }
+            }
+            updateCartDisplay();
+        }
+
+        function showModal(icon, title, message) {
+            const overlay = document.getElementById('modalOverlay');
+            const modal = overlay.querySelector('.modal');
+            
+            modal.querySelector('.icon').textContent = icon;
+            modal.querySelector('h2').textContent = title;
+            modal.querySelector('p').textContent = message;
+            
+            overlay.style.display = 'flex';
+        }
+
+        function fecharModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        // Fechar modal clicando no overlay
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModal();
+            }
+        });
+
+        // Inicializar quantidades no display (garantir que todos os contadores estejam em 0)
+        for (const productId of Object.keys(products)) {
+            const element = document.getElementById(`qty-${productId}`);
+            if (element) element.textContent = '0';
+        }
+    </script>
+</body>
+</html>
